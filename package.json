@@ -1,0 +1,39 @@
+{
+  "name": "ngx-cc",
+  "description": "An Angular 2 wrapper for intl-tel-input library",
+  "keywords": [
+    "Angular",
+    "Angular material",
+    "Library",
+    "Credit Card Validator",
+    "Credit Card Input",
+    "Components"
+  ],
+  "version": "0.0.1",
+  "author": "sonigaurav119@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "git+https://github.com/gauravsoni119/ngx-cc.git"
+  },
+  "homepage": "https://github.com/gauravsoni119/ngx-cc#readme",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "@angular/material": "^7.3.7"
+  },
+  "dependencies": {
+    "card-validator": "^6.1.0",
+    "credit-card-type": "^8.2.0",
+    "tslib": "^1.9.0"
+  },
+  "main": "bundles/ngx-cc.umd.js",
+  "module": "fesm5/ngx-cc.js",
+  "es2015": "fesm2015/ngx-cc.js",
+  "esm5": "esm5/ngx-cc.js",
+  "esm2015": "esm2015/ngx-cc.js",
+  "fesm5": "fesm5/ngx-cc.js",
+  "fesm2015": "fesm2015/ngx-cc.js",
+  "typings": "ngx-cc.d.ts",
+  "metadata": "ngx-cc.metadata.json",
+  "sideEffects": false
+}
