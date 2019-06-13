@@ -55,7 +55,7 @@ var NgxCcService = /** @class */ (function () {
     ];
     /** @nocollapse */
     NgxCcService.ctorParameters = function () { return []; };
-    /** @nocollapse */ NgxCcService.ngInjectableDef = i0.defineInjectable({ factory: function NgxCcService_Factory() { return new NgxCcService(); }, token: NgxCcService, providedIn: "root" });
+    /** @nocollapse */ NgxCcService.ngInjectableDef = i0.ɵɵdefineInjectable({ factory: function NgxCcService_Factory() { return new NgxCcService(); }, token: NgxCcService, providedIn: "root" });
     return NgxCcService;
 }());
 export { NgxCcService };

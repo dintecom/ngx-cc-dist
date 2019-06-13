@@ -1,5 +1,5 @@
 import { Injector, OnInit, OnDestroy, DoCheck, ElementRef } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -15,11 +15,13 @@ export declare class CcCvvComponent implements OnInit, OnDestroy, DoCheck, Contr
     required: boolean;
     disabled: boolean;
     defaultStyles: any;
+    cvvSize: number;
     private _value;
     private _placeholder;
     private _disabled;
     private _defaultStyles;
     private _required;
+    private _cvvSize;
     ngControl: NgControl;
     focused: boolean;
     errorState: boolean;
@@ -34,6 +36,7 @@ export declare class CcCvvComponent implements OnInit, OnDestroy, DoCheck, Contr
     constructor(injector: Injector, elRef: ElementRef<HTMLElement>, fm: FocusMonitor);
     ngOnInit(): void;
     ngDoCheck(): void;
+    validate(control: AbstractControl): ValidationErrors | null;
     writeValue(val: string): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;

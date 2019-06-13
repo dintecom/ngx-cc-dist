@@ -1,13 +1,13 @@
+import { Injectable, ɵɵdefineInjectable, Component, forwardRef, ViewEncapsulation, Injector, ElementRef, Input, HostBinding, Directive, HostListener, NgModule } from '@angular/core';
 import creditCardType from 'credit-card-type';
-import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { Injectable, Component, HostBinding, Input, Injector, forwardRef, ElementRef, Directive, HostListener, NgModule, ViewEncapsulation, defineInjectable } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NG_VALIDATORS, NgControl, FormsModule } from '@angular/forms';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { NgControl, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule } from '@angular/forms';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import validator from 'card-validator';
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
 
 /**
  * @fileoverview added by tsickle
@@ -54,7 +54,7 @@ NgxCcService.decorators = [
 ];
 /** @nocollapse */
 NgxCcService.ctorParameters = () => [];
-/** @nocollapse */ NgxCcService.ngInjectableDef = defineInjectable({ factory: function NgxCcService_Factory() { return new NgxCcService(); }, token: NgxCcService, providedIn: "root" });
+/** @nocollapse */ NgxCcService.ngInjectableDef = ɵɵdefineInjectable({ factory: function NgxCcService_Factory() { return new NgxCcService(); }, token: NgxCcService, providedIn: "root" });
 
 /**
  * @fileoverview added by tsickle
@@ -843,22 +843,6 @@ FormatDateDirective.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/** @type {?} */
-const CardCvvValidator = (/**
- * @param {?} control
- * @return {?}
- */
-(control) => {
-    /** @type {?} */
-    const cvv = validator.cvv(control.value);
-    return (cvv.isValid) ? null : { invalidCvv: true };
-});
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-const ɵ0$2 = CardCvvValidator;
 class CcCvvComponent {
     /**
      * @param {?} injector
@@ -974,6 +958,22 @@ class CcCvvComponent {
     /**
      * @return {?}
      */
+    get cvvSize() {
+        return this._cvvSize;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set cvvSize(value) {
+        this._cvvSize = value;
+        if (this.ngControl) {
+            this.ngControl.control.updateValueAndValidity();
+        }
+    }
+    /**
+     * @return {?}
+     */
     get shouldLabelFloat() {
         return this.focused || !this.empty;
     }
@@ -996,6 +996,15 @@ class CcCvvComponent {
             this.errorState = this.ngControl.invalid && this.ngControl.touched;
             this.stateChanges.next();
         }
+    }
+    /**
+     * @param {?} control
+     * @return {?}
+     */
+    validate(control) {
+        /** @type {?} */
+        const cvv = validator.cvv(control.value, this.cvvSize);
+        return cvv.isValid ? null : { invalidCvv: true };
     }
     /**
      * @param {?} val
@@ -1092,7 +1101,10 @@ CcCvvComponent.decorators = [
                     },
                     {
                         provide: NG_VALIDATORS,
-                        useValue: ɵ0$2,
+                        useExisting: forwardRef((/**
+                         * @return {?}
+                         */
+                        () => CcCvvComponent)),
                         multi: true
                     },
                     {
@@ -1130,6 +1142,7 @@ CcCvvComponent.propDecorators = {
     required: [{ type: Input }],
     disabled: [{ type: Input }],
     defaultStyles: [{ type: Input }],
+    cvvSize: [{ type: Input, args: ['cvv-size',] }],
     id: [{ type: HostBinding }],
     describedBy: [{ type: HostBinding, args: ['attr.aria-describedby',] }],
     shouldLabelFloat: [{ type: HostBinding, args: ['class.floating',] }]
@@ -1176,6 +1189,5 @@ NgxCcModule.decorators = [
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { NgxCcService, NgxCcComponent, CcDateComponent, NgxCcModule, CcCvvComponent as ɵe, FormatDateDirective as ɵd, NumberOnlyDirective as ɵc, CardCvvValidator as ɵf, CardExpirationValidator as ɵb, CardValidator as ɵa };
-
+export { CcDateComponent, NgxCcComponent, NgxCcModule, NgxCcService, CardValidator as ɵa, CardExpirationValidator as ɵb, NumberOnlyDirective as ɵc, FormatDateDirective as ɵd, CcCvvComponent as ɵe };
 //# sourceMappingURL=ngx-cc.js.map
