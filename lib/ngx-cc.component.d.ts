@@ -1,6 +1,7 @@
 import { Injector, OnInit, OnDestroy, DoCheck, ElementRef } from '@angular/core';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl, NgForm, FormGroupDirective } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { NgxCcService } from './ngx-cc.service';
@@ -8,6 +9,9 @@ import { CardConfig } from './ngx-cc.model';
 export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, ControlValueAccessor, MatFormFieldControl<NgxCcComponent> {
     private injector;
     private elRef;
+    private parentForm;
+    private parentFormGroup;
+    private defaultErrorStateMatcher;
     private fm;
     private creditCardService;
     static nextId: number;
@@ -36,7 +40,7 @@ export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, Contr
     id: string;
     describedBy: string;
     readonly shouldLabelFloat: boolean;
-    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, fm: FocusMonitor, creditCardService: NgxCcService);
+    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, parentForm: NgForm, parentFormGroup: FormGroupDirective, defaultErrorStateMatcher: ErrorStateMatcher, fm: FocusMonitor, creditCardService: NgxCcService);
     ngOnInit(): void;
     ngDoCheck(): void;
     writeValue(value: string): void;
@@ -47,4 +51,5 @@ export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, Contr
     updateIcon(event: Event): void;
     updateOnTouch(): void;
     ngOnDestroy(): void;
+    updateErrorState(): void;
 }

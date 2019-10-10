@@ -1,8 +1,9 @@
-import { Injectable, ɵɵdefineInjectable, Component, forwardRef, ViewEncapsulation, Injector, ElementRef, Input, HostBinding, Directive, HostListener, NgModule } from '@angular/core';
+import { Injectable, ɵɵdefineInjectable, Component, forwardRef, ViewEncapsulation, Injector, ElementRef, Optional, Input, HostBinding, Directive, HostListener, NgModule } from '@angular/core';
 import creditCardType from 'credit-card-type';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { NgControl, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule } from '@angular/forms';
+import { NgControl, NG_VALUE_ACCESSOR, NG_VALIDATORS, NgForm, FormGroupDirective, FormsModule } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import validator from 'card-validator';
@@ -94,12 +95,18 @@ class NgxCcComponent {
     /**
      * @param {?} injector
      * @param {?} elRef
+     * @param {?} parentForm
+     * @param {?} parentFormGroup
+     * @param {?} defaultErrorStateMatcher
      * @param {?} fm
      * @param {?} creditCardService
      */
-    constructor(injector, elRef, fm, creditCardService) {
+    constructor(injector, elRef, parentForm, parentFormGroup, defaultErrorStateMatcher, fm, creditCardService) {
         this.injector = injector;
         this.elRef = elRef;
+        this.parentForm = parentForm;
+        this.parentFormGroup = parentFormGroup;
+        this.defaultErrorStateMatcher = defaultErrorStateMatcher;
         this.fm = fm;
         this.creditCardService = creditCardService;
         // tslint:disable-next-line: variable-name
@@ -116,6 +123,16 @@ class NgxCcComponent {
         this.stateChanges = new Subject();
         this.id = `ngx-cc${NgxCcComponent.nextId}`;
         this.describedBy = '';
+        /** @type {?} */
+        const parent = this.parentFormGroup || this.parentForm;
+        if (parent) {
+            parentFormGroup.ngSubmit.subscribe((/**
+             * @return {?}
+             */
+            () => {
+                this.ngControl.control.markAsTouched();
+            }));
+        }
         fm.monitor(elRef.nativeElement, true).subscribe((/**
          * @param {?} origin
          * @return {?}
@@ -228,8 +245,7 @@ class NgxCcComponent {
      */
     ngDoCheck() {
         if (this.ngControl) {
-            this.errorState = this.ngControl.invalid && this.ngControl.touched;
-            this.stateChanges.next();
+            this.updateErrorState();
         }
     }
     /**
@@ -303,6 +319,25 @@ class NgxCcComponent {
     ngOnDestroy() {
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
+    }
+    /**
+     * @return {?}
+     */
+    updateErrorState() {
+        /** @type {?} */
+        const oldState = this.errorState;
+        /** @type {?} */
+        const parent = this.parentFormGroup || this.parentForm;
+        /** @type {?} */
+        const matcher = this.defaultErrorStateMatcher;
+        /** @type {?} */
+        const control = this.ngControl ? (/** @type {?} */ (this.ngControl.control)) : null;
+        /** @type {?} */
+        const newState = matcher.isErrorState(control, parent);
+        if (newState !== oldState) {
+            this.errorState = newState;
+            this.stateChanges.next();
+        }
     }
 }
 NgxCcComponent.nextId = 0;
@@ -393,6 +428,9 @@ NgxCcComponent.decorators = [
 NgxCcComponent.ctorParameters = () => [
     { type: Injector },
     { type: ElementRef },
+    { type: NgForm, decorators: [{ type: Optional }] },
+    { type: FormGroupDirective, decorators: [{ type: Optional }] },
+    { type: ErrorStateMatcher },
     { type: FocusMonitor },
     { type: NgxCcService }
 ];

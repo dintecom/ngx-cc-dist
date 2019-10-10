@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('credit-card-type'), require('@angular/cdk/a11y'), require('@angular/cdk/coercion'), require('@angular/forms'), require('@angular/material/form-field'), require('rxjs'), require('card-validator'), require('@angular/common'), require('@angular/material/input')) :
-    typeof define === 'function' && define.amd ? define('ngx-cc', ['exports', '@angular/core', 'credit-card-type', '@angular/cdk/a11y', '@angular/cdk/coercion', '@angular/forms', '@angular/material/form-field', 'rxjs', 'card-validator', '@angular/common', '@angular/material/input'], factory) :
-    (global = global || self, factory(global['ngx-cc'] = {}, global.ng.core, global.creditCardType, global.ng.cdk.a11y, global.ng.cdk.coercion, global.ng.forms, global.ng.material['form-field'], global.rxjs, global.validator, global.ng.common, global.ng.material.input));
-}(this, function (exports, core, creditCardType, a11y, coercion, forms, formField, rxjs, validator, common, input) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('credit-card-type'), require('@angular/cdk/a11y'), require('@angular/cdk/coercion'), require('@angular/forms'), require('@angular/material/core'), require('@angular/material/form-field'), require('rxjs'), require('card-validator'), require('@angular/common'), require('@angular/material/input')) :
+    typeof define === 'function' && define.amd ? define('ngx-cc', ['exports', '@angular/core', 'credit-card-type', '@angular/cdk/a11y', '@angular/cdk/coercion', '@angular/forms', '@angular/material/core', '@angular/material/form-field', 'rxjs', 'card-validator', '@angular/common', '@angular/material/input'], factory) :
+    (global = global || self, factory(global['ngx-cc'] = {}, global.ng.core, global.creditCardType, global.ng.cdk.a11y, global.ng.cdk.coercion, global.ng.forms, global.ng.material.core, global.ng.material['form-field'], global.rxjs, global.validator, global.ng.common, global.ng.material.input));
+}(this, function (exports, core, creditCardType, a11y, coercion, forms, core$1, formField, rxjs, validator, common, input) { 'use strict';
 
     creditCardType = creditCardType && creditCardType.hasOwnProperty('default') ? creditCardType['default'] : creditCardType;
     validator = validator && validator.hasOwnProperty('default') ? validator['default'] : validator;
@@ -138,10 +138,13 @@
      */
     var ɵ0 = CardValidator;
     var NgxCcComponent = /** @class */ (function () {
-        function NgxCcComponent(injector, elRef, fm, creditCardService) {
+        function NgxCcComponent(injector, elRef, parentForm, parentFormGroup, defaultErrorStateMatcher, fm, creditCardService) {
             var _this = this;
             this.injector = injector;
             this.elRef = elRef;
+            this.parentForm = parentForm;
+            this.parentFormGroup = parentFormGroup;
+            this.defaultErrorStateMatcher = defaultErrorStateMatcher;
             this.fm = fm;
             this.creditCardService = creditCardService;
             // tslint:disable-next-line: variable-name
@@ -158,6 +161,16 @@
             this.stateChanges = new rxjs.Subject();
             this.id = "ngx-cc" + NgxCcComponent.nextId;
             this.describedBy = '';
+            /** @type {?} */
+            var parent = this.parentFormGroup || this.parentForm;
+            if (parent) {
+                parentFormGroup.ngSubmit.subscribe((/**
+                 * @return {?}
+                 */
+                function () {
+                    _this.ngControl.control.markAsTouched();
+                }));
+            }
             fm.monitor(elRef.nativeElement, true).subscribe((/**
              * @param {?} origin
              * @return {?}
@@ -304,8 +317,7 @@
          */
         function () {
             if (this.ngControl) {
-                this.errorState = this.ngControl.invalid && this.ngControl.touched;
-                this.stateChanges.next();
+                this.updateErrorState();
             }
         };
         /**
@@ -410,6 +422,28 @@
             this.fm.stopMonitoring(this.elRef.nativeElement);
             this.stateChanges.complete();
         };
+        /**
+         * @return {?}
+         */
+        NgxCcComponent.prototype.updateErrorState = /**
+         * @return {?}
+         */
+        function () {
+            /** @type {?} */
+            var oldState = this.errorState;
+            /** @type {?} */
+            var parent = this.parentFormGroup || this.parentForm;
+            /** @type {?} */
+            var matcher = this.defaultErrorStateMatcher;
+            /** @type {?} */
+            var control = this.ngControl ? (/** @type {?} */ (this.ngControl.control)) : null;
+            /** @type {?} */
+            var newState = matcher.isErrorState(control, parent);
+            if (newState !== oldState) {
+                this.errorState = newState;
+                this.stateChanges.next();
+            }
+        };
         NgxCcComponent.nextId = 0;
         NgxCcComponent.decorators = [
             { type: core.Component, args: [{
@@ -446,6 +480,9 @@
         NgxCcComponent.ctorParameters = function () { return [
             { type: core.Injector },
             { type: core.ElementRef },
+            { type: forms.NgForm, decorators: [{ type: core.Optional }] },
+            { type: forms.FormGroupDirective, decorators: [{ type: core.Optional }] },
+            { type: core$1.ErrorStateMatcher },
             { type: a11y.FocusMonitor },
             { type: NgxCcService }
         ]; };

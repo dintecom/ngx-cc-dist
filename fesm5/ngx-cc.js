@@ -1,9 +1,10 @@
-import { Injectable, ɵɵdefineInjectable, Component, forwardRef, ViewEncapsulation, Injector, ElementRef, Input, HostBinding, Directive, HostListener, NgModule } from '@angular/core';
+import { Injectable, ɵɵdefineInjectable, Component, forwardRef, ViewEncapsulation, Injector, ElementRef, Optional, Input, HostBinding, Directive, HostListener, NgModule } from '@angular/core';
 import creditCardType from 'credit-card-type';
 import { __spread } from 'tslib';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { NgControl, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule } from '@angular/forms';
+import { NgControl, NG_VALUE_ACCESSOR, NG_VALIDATORS, NgForm, FormGroupDirective, FormsModule } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import validator from 'card-validator';
@@ -103,10 +104,13 @@ var cardIcons = {
  */
 var ɵ0 = CardValidator;
 var NgxCcComponent = /** @class */ (function () {
-    function NgxCcComponent(injector, elRef, fm, creditCardService) {
+    function NgxCcComponent(injector, elRef, parentForm, parentFormGroup, defaultErrorStateMatcher, fm, creditCardService) {
         var _this = this;
         this.injector = injector;
         this.elRef = elRef;
+        this.parentForm = parentForm;
+        this.parentFormGroup = parentFormGroup;
+        this.defaultErrorStateMatcher = defaultErrorStateMatcher;
         this.fm = fm;
         this.creditCardService = creditCardService;
         // tslint:disable-next-line: variable-name
@@ -123,6 +127,16 @@ var NgxCcComponent = /** @class */ (function () {
         this.stateChanges = new Subject();
         this.id = "ngx-cc" + NgxCcComponent.nextId;
         this.describedBy = '';
+        /** @type {?} */
+        var parent = this.parentFormGroup || this.parentForm;
+        if (parent) {
+            parentFormGroup.ngSubmit.subscribe((/**
+             * @return {?}
+             */
+            function () {
+                _this.ngControl.control.markAsTouched();
+            }));
+        }
         fm.monitor(elRef.nativeElement, true).subscribe((/**
          * @param {?} origin
          * @return {?}
@@ -269,8 +283,7 @@ var NgxCcComponent = /** @class */ (function () {
      */
     function () {
         if (this.ngControl) {
-            this.errorState = this.ngControl.invalid && this.ngControl.touched;
-            this.stateChanges.next();
+            this.updateErrorState();
         }
     };
     /**
@@ -375,6 +388,28 @@ var NgxCcComponent = /** @class */ (function () {
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     };
+    /**
+     * @return {?}
+     */
+    NgxCcComponent.prototype.updateErrorState = /**
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
+        var oldState = this.errorState;
+        /** @type {?} */
+        var parent = this.parentFormGroup || this.parentForm;
+        /** @type {?} */
+        var matcher = this.defaultErrorStateMatcher;
+        /** @type {?} */
+        var control = this.ngControl ? (/** @type {?} */ (this.ngControl.control)) : null;
+        /** @type {?} */
+        var newState = matcher.isErrorState(control, parent);
+        if (newState !== oldState) {
+            this.errorState = newState;
+            this.stateChanges.next();
+        }
+    };
     NgxCcComponent.nextId = 0;
     NgxCcComponent.decorators = [
         { type: Component, args: [{
@@ -411,6 +446,9 @@ var NgxCcComponent = /** @class */ (function () {
     NgxCcComponent.ctorParameters = function () { return [
         { type: Injector },
         { type: ElementRef },
+        { type: NgForm, decorators: [{ type: Optional }] },
+        { type: FormGroupDirective, decorators: [{ type: Optional }] },
+        { type: ErrorStateMatcher },
         { type: FocusMonitor },
         { type: NgxCcService }
     ]; };
