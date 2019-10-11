@@ -138,14 +138,14 @@
      */
     var ɵ0 = CardValidator;
     var NgxCcComponent = /** @class */ (function () {
-        function NgxCcComponent(injector, elRef, parentForm, parentFormGroup, defaultErrorStateMatcher, fm, creditCardService) {
+        function NgxCcComponent(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher, creditCardService) {
             var _this = this;
             this.injector = injector;
             this.elRef = elRef;
+            this.fm = fm;
             this.parentForm = parentForm;
             this.parentFormGroup = parentFormGroup;
             this.defaultErrorStateMatcher = defaultErrorStateMatcher;
-            this.fm = fm;
             this.creditCardService = creditCardService;
             // tslint:disable-next-line: variable-name
             this._disabled = false;
@@ -480,10 +480,10 @@
         NgxCcComponent.ctorParameters = function () { return [
             { type: core.Injector },
             { type: core.ElementRef },
+            { type: a11y.FocusMonitor },
             { type: forms.NgForm, decorators: [{ type: core.Optional }] },
             { type: forms.FormGroupDirective, decorators: [{ type: core.Optional }] },
             { type: core$1.ErrorStateMatcher },
-            { type: a11y.FocusMonitor },
             { type: NgxCcService }
         ]; };
         NgxCcComponent.propDecorators = {
@@ -522,11 +522,14 @@
      */
     var ɵ0$1 = CardExpirationValidator;
     var CcDateComponent = /** @class */ (function () {
-        function CcDateComponent(injector, elRef, fm) {
+        function CcDateComponent(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher) {
             var _this = this;
             this.injector = injector;
             this.elRef = elRef;
             this.fm = fm;
+            this.parentForm = parentForm;
+            this.parentFormGroup = parentFormGroup;
+            this.defaultErrorStateMatcher = defaultErrorStateMatcher;
             // tslint:disable-next-line: variable-name
             this._disabled = false;
             // tslint:disable-next-line: variable-name
@@ -540,6 +543,16 @@
             this.cardDate = '';
             this.id = "ngx-cc" + CcDateComponent.nextId;
             this.describedBy = '';
+            /** @type {?} */
+            var parent = this.parentFormGroup || this.parentForm;
+            if (parent) {
+                parentFormGroup.ngSubmit.subscribe((/**
+                 * @return {?}
+                 */
+                function () {
+                    _this.ngControl.control.markAsTouched();
+                }));
+            }
             fm.monitor(elRef.nativeElement, true).subscribe((/**
              * @param {?} origin
              * @return {?}
@@ -684,8 +697,7 @@
          */
         function () {
             if (this.ngControl) {
-                this.errorState = this.ngControl.invalid && this.ngControl.touched;
-                this.stateChanges.next();
+                this.updateErrorState();
             }
         };
         /**
@@ -781,6 +793,28 @@
             this.fm.stopMonitoring(this.elRef.nativeElement);
             this.stateChanges.complete();
         };
+        /**
+         * @return {?}
+         */
+        CcDateComponent.prototype.updateErrorState = /**
+         * @return {?}
+         */
+        function () {
+            /** @type {?} */
+            var oldState = this.errorState;
+            /** @type {?} */
+            var parent = this.parentFormGroup || this.parentForm;
+            /** @type {?} */
+            var matcher = this.defaultErrorStateMatcher;
+            /** @type {?} */
+            var control = this.ngControl ? (/** @type {?} */ (this.ngControl.control)) : null;
+            /** @type {?} */
+            var newState = matcher.isErrorState(control, parent);
+            if (newState !== oldState) {
+                this.errorState = newState;
+                this.stateChanges.next();
+            }
+        };
         CcDateComponent.nextId = 0;
         CcDateComponent.decorators = [
             { type: core.Component, args: [{
@@ -817,7 +851,10 @@
         CcDateComponent.ctorParameters = function () { return [
             { type: core.Injector },
             { type: core.ElementRef },
-            { type: a11y.FocusMonitor }
+            { type: a11y.FocusMonitor },
+            { type: forms.NgForm, decorators: [{ type: core.Optional }] },
+            { type: forms.FormGroupDirective, decorators: [{ type: core.Optional }] },
+            { type: core$1.ErrorStateMatcher }
         ]; };
         CcDateComponent.propDecorators = {
             styleClass: [{ type: core.Input }],
@@ -979,11 +1016,14 @@
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     var CcCvvComponent = /** @class */ (function () {
-        function CcCvvComponent(injector, elRef, fm) {
+        function CcCvvComponent(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher) {
             var _this = this;
             this.injector = injector;
             this.elRef = elRef;
             this.fm = fm;
+            this.parentForm = parentForm;
+            this.parentFormGroup = parentFormGroup;
+            this.defaultErrorStateMatcher = defaultErrorStateMatcher;
             // tslint:disable-next-line: variable-name
             this._disabled = false;
             // tslint:disable-next-line: variable-name
@@ -998,6 +1038,16 @@
             this.maxCvvLength = 4;
             this.id = "ngx-cc" + CcCvvComponent.nextId;
             this.describedBy = '';
+            /** @type {?} */
+            var parent = this.parentFormGroup || this.parentForm;
+            if (parent) {
+                parentFormGroup.ngSubmit.subscribe((/**
+                 * @return {?}
+                 */
+                function () {
+                    _this.ngControl.control.markAsTouched();
+                }));
+            }
             fm.monitor(elRef.nativeElement, true).subscribe((/**
              * @param {?} origin
              * @return {?}
@@ -1162,8 +1212,7 @@
          */
         function () {
             if (this.ngControl) {
-                this.errorState = this.ngControl.invalid && this.ngControl.touched;
-                this.stateChanges.next();
+                this.updateErrorState();
             }
         };
         /**
@@ -1273,6 +1322,28 @@
             this.fm.stopMonitoring(this.elRef.nativeElement);
             this.stateChanges.complete();
         };
+        /**
+         * @return {?}
+         */
+        CcCvvComponent.prototype.updateErrorState = /**
+         * @return {?}
+         */
+        function () {
+            /** @type {?} */
+            var oldState = this.errorState;
+            /** @type {?} */
+            var parent = this.parentFormGroup || this.parentForm;
+            /** @type {?} */
+            var matcher = this.defaultErrorStateMatcher;
+            /** @type {?} */
+            var control = this.ngControl ? (/** @type {?} */ (this.ngControl.control)) : null;
+            /** @type {?} */
+            var newState = matcher.isErrorState(control, parent);
+            if (newState !== oldState) {
+                this.errorState = newState;
+                this.stateChanges.next();
+            }
+        };
         CcCvvComponent.nextId = 0;
         CcCvvComponent.decorators = [
             { type: core.Component, args: [{
@@ -1311,7 +1382,10 @@
         CcCvvComponent.ctorParameters = function () { return [
             { type: core.Injector },
             { type: core.ElementRef },
-            { type: a11y.FocusMonitor }
+            { type: a11y.FocusMonitor },
+            { type: forms.NgForm, decorators: [{ type: core.Optional }] },
+            { type: forms.FormGroupDirective, decorators: [{ type: core.Optional }] },
+            { type: core$1.ErrorStateMatcher }
         ]; };
         CcCvvComponent.propDecorators = {
             styleClass: [{ type: core.Input }],

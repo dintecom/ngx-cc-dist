@@ -9,10 +9,10 @@ import { CardConfig } from './ngx-cc.model';
 export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, ControlValueAccessor, MatFormFieldControl<NgxCcComponent> {
     private injector;
     private elRef;
+    private fm;
     private parentForm;
     private parentFormGroup;
     private defaultErrorStateMatcher;
-    private fm;
     private creditCardService;
     static nextId: number;
     styleClass: string;
@@ -40,7 +40,7 @@ export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, Contr
     id: string;
     describedBy: string;
     readonly shouldLabelFloat: boolean;
-    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, parentForm: NgForm, parentFormGroup: FormGroupDirective, defaultErrorStateMatcher: ErrorStateMatcher, fm: FocusMonitor, creditCardService: NgxCcService);
+    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, fm: FocusMonitor, parentForm: NgForm, parentFormGroup: FormGroupDirective, defaultErrorStateMatcher: ErrorStateMatcher, creditCardService: NgxCcService);
     ngOnInit(): void;
     ngDoCheck(): void;
     writeValue(value: string): void;

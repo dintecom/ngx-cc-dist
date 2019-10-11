@@ -1,12 +1,16 @@
 import { Injector, OnInit, OnDestroy, DoCheck, ElementRef } from '@angular/core';
-import { ControlValueAccessor, NgControl, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ControlValueAccessor, NgControl, AbstractControl, ValidationErrors, NgForm, FormGroupDirective } from '@angular/forms';
 import { FocusMonitor } from '@angular/cdk/a11y';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 export declare class CcCvvComponent implements OnInit, OnDestroy, DoCheck, ControlValueAccessor, MatFormFieldControl<CcCvvComponent> {
     private injector;
     private elRef;
     private fm;
+    private parentForm;
+    private parentFormGroup;
+    private defaultErrorStateMatcher;
     static nextId: number;
     styleClass: string;
     value: any;
@@ -33,7 +37,7 @@ export declare class CcCvvComponent implements OnInit, OnDestroy, DoCheck, Contr
     id: string;
     describedBy: string;
     readonly shouldLabelFloat: boolean;
-    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, fm: FocusMonitor);
+    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, fm: FocusMonitor, parentForm: NgForm, parentFormGroup: FormGroupDirective, defaultErrorStateMatcher: ErrorStateMatcher);
     ngOnInit(): void;
     ngDoCheck(): void;
     validate(control: AbstractControl): ValidationErrors | null;
@@ -45,4 +49,5 @@ export declare class CcCvvComponent implements OnInit, OnDestroy, DoCheck, Contr
     updateCvv(event: Event): void;
     updateOnTouch(): void;
     ngOnDestroy(): void;
+    updateErrorState(): void;
 }
