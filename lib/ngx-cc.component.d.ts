@@ -27,6 +27,7 @@ export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, Contr
     private _disabled;
     private _defaultStyles;
     private _required;
+    private _formSubmitSubscription;
     ngControl: NgControl;
     focused: boolean;
     errorState: boolean;

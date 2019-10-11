@@ -130,7 +130,7 @@ var NgxCcComponent = /** @class */ (function () {
         /** @type {?} */
         var parent = this.parentFormGroup || this.parentForm;
         if (parent) {
-            parentFormGroup.ngSubmit.subscribe((/**
+            this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
              * @return {?}
              */
             function () {
@@ -385,6 +385,8 @@ var NgxCcComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        if (this._formSubmitSubscription)
+            this._formSubmitSubscription.unsubscribe();
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     };
@@ -512,7 +514,7 @@ var CcDateComponent = /** @class */ (function () {
         /** @type {?} */
         var parent = this.parentFormGroup || this.parentForm;
         if (parent) {
-            parentFormGroup.ngSubmit.subscribe((/**
+            this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
              * @return {?}
              */
             function () {
@@ -756,6 +758,8 @@ var CcDateComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        if (this._formSubmitSubscription)
+            this._formSubmitSubscription.unsubscribe();
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     };
@@ -1007,7 +1011,7 @@ var CcCvvComponent = /** @class */ (function () {
         /** @type {?} */
         var parent = this.parentFormGroup || this.parentForm;
         if (parent) {
-            parentFormGroup.ngSubmit.subscribe((/**
+            this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
              * @return {?}
              */
             function () {
@@ -1285,6 +1289,8 @@ var CcCvvComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        if (this._formSubmitSubscription)
+            this._formSubmitSubscription.unsubscribe();
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     };

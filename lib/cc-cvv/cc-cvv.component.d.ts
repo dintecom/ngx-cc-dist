@@ -26,6 +26,7 @@ export declare class CcCvvComponent implements OnInit, OnDestroy, DoCheck, Contr
     private _defaultStyles;
     private _required;
     private _cvvSize;
+    private _formSubmitSubscription;
     ngControl: NgControl;
     focused: boolean;
     errorState: boolean;

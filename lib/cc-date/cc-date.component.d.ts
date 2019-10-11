@@ -24,6 +24,7 @@ export declare class CcDateComponent implements OnInit, OnDestroy, DoCheck, Cont
     private _disabled;
     private _defaultStyles;
     private _required;
+    private _formSubmitSubscription;
     ngControl: NgControl;
     focused: boolean;
     errorState: boolean;

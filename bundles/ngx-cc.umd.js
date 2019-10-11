@@ -164,7 +164,7 @@
             /** @type {?} */
             var parent = this.parentFormGroup || this.parentForm;
             if (parent) {
-                parentFormGroup.ngSubmit.subscribe((/**
+                this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
                  * @return {?}
                  */
                 function () {
@@ -419,6 +419,8 @@
          * @return {?}
          */
         function () {
+            if (this._formSubmitSubscription)
+                this._formSubmitSubscription.unsubscribe();
             this.fm.stopMonitoring(this.elRef.nativeElement);
             this.stateChanges.complete();
         };
@@ -546,7 +548,7 @@
             /** @type {?} */
             var parent = this.parentFormGroup || this.parentForm;
             if (parent) {
-                parentFormGroup.ngSubmit.subscribe((/**
+                this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
                  * @return {?}
                  */
                 function () {
@@ -790,6 +792,8 @@
          * @return {?}
          */
         function () {
+            if (this._formSubmitSubscription)
+                this._formSubmitSubscription.unsubscribe();
             this.fm.stopMonitoring(this.elRef.nativeElement);
             this.stateChanges.complete();
         };
@@ -1041,7 +1045,7 @@
             /** @type {?} */
             var parent = this.parentFormGroup || this.parentForm;
             if (parent) {
-                parentFormGroup.ngSubmit.subscribe((/**
+                this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
                  * @return {?}
                  */
                 function () {
@@ -1319,6 +1323,8 @@
          * @return {?}
          */
         function () {
+            if (this._formSubmitSubscription)
+                this._formSubmitSubscription.unsubscribe();
             this.fm.stopMonitoring(this.elRef.nativeElement);
             this.stateChanges.complete();
         };

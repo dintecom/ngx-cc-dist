@@ -126,7 +126,7 @@ class NgxCcComponent {
         /** @type {?} */
         const parent = this.parentFormGroup || this.parentForm;
         if (parent) {
-            parentFormGroup.ngSubmit.subscribe((/**
+            this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
              * @return {?}
              */
             () => {
@@ -317,6 +317,8 @@ class NgxCcComponent {
      * @return {?}
      */
     ngOnDestroy() {
+        if (this._formSubmitSubscription)
+            this._formSubmitSubscription.unsubscribe();
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     }
@@ -499,7 +501,7 @@ class CcDateComponent {
         /** @type {?} */
         const parent = this.parentFormGroup || this.parentForm;
         if (parent) {
-            parentFormGroup.ngSubmit.subscribe((/**
+            this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
              * @return {?}
              */
             () => {
@@ -680,6 +682,8 @@ class CcDateComponent {
      * @return {?}
      */
     ngOnDestroy() {
+        if (this._formSubmitSubscription)
+            this._formSubmitSubscription.unsubscribe();
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     }
@@ -951,7 +955,7 @@ class CcCvvComponent {
         /** @type {?} */
         const parent = this.parentFormGroup || this.parentForm;
         if (parent) {
-            parentFormGroup.ngSubmit.subscribe((/**
+            this._formSubmitSubscription = parentFormGroup.ngSubmit.subscribe((/**
              * @return {?}
              */
             () => {
@@ -1157,6 +1161,8 @@ class CcCvvComponent {
      * @return {?}
      */
     ngOnDestroy() {
+        if (this._formSubmitSubscription)
+            this._formSubmitSubscription.unsubscribe();
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     }
