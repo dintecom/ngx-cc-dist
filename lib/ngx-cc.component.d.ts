@@ -15,7 +15,7 @@ export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, Contr
     private parentFormGroup;
     private defaultErrorStateMatcher;
     private creditCardService;
-    private cardIcons;
+    private ccCardIcons;
     static nextId: number;
     styleClass: string;
     get value(): any;
@@ -35,6 +35,7 @@ export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, Contr
     private _defaultStyles;
     private _required;
     private _formSubmitSubscription;
+    private _cardIcons;
     ngControl: NgControl;
     focused: boolean;
     errorState: boolean;
@@ -48,7 +49,7 @@ export declare class NgxCcComponent implements OnInit, OnDestroy, DoCheck, Contr
     id: string;
     describedBy: string;
     get shouldLabelFloat(): boolean;
-    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, fm: FocusMonitor, parentForm: NgForm, parentFormGroup: FormGroupDirective, defaultErrorStateMatcher: ErrorStateMatcher, creditCardService: NgxCcService, cardIcons: CardIcons);
+    constructor(injector: Injector, elRef: ElementRef<HTMLElement>, fm: FocusMonitor, parentForm: NgForm, parentFormGroup: FormGroupDirective, defaultErrorStateMatcher: ErrorStateMatcher, creditCardService: NgxCcService, ccCardIcons: CardIcons);
     ngOnInit(): void;
     ngDoCheck(): void;
     writeValue(value: string): void;

@@ -256,9 +256,25 @@
 
     var CC_CARD_ICONS_TOKEN = new core.InjectionToken('CC_CARD_ICONS_TOKEN');
 
+    var externalCardIcons = {
+        default: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
+        visa: 'https://img.icons8.com/color/40/000000/visa.png',
+        mastercard: 'https://img.icons8.com/color/40/000000/mastercard.png',
+        'american-express': 'https://img.icons8.com/color/40/000000/amex.png',
+        'diners-club': 'https://img.icons8.com/color/40/000000/diners-club.png',
+        discover: 'https://img.icons8.com/color/40/000000/discover.png',
+        jcb: 'https://img.icons8.com/color/40/000000/jcb.png',
+        unionpay: 'https://img.icons8.com/color/40/000000/unionpay.png',
+        maestro: 'https://img.icons8.com/color/40/000000/maestro.png',
+        mir: 'https://img.icons8.com/color/40/000000/mir.png',
+        elo: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
+        hiper: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
+        hipercard: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
+    };
+
     var ɵ0 = CardValidator;
     var NgxCcComponent = /** @class */ (function () {
-        function NgxCcComponent(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher, creditCardService, cardIcons) {
+        function NgxCcComponent(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher, creditCardService, ccCardIcons) {
             var _this = this;
             this.injector = injector;
             this.elRef = elRef;
@@ -267,18 +283,20 @@
             this.parentFormGroup = parentFormGroup;
             this.defaultErrorStateMatcher = defaultErrorStateMatcher;
             this.creditCardService = creditCardService;
-            this.cardIcons = cardIcons;
+            this.ccCardIcons = ccCardIcons;
             // tslint:disable-next-line: variable-name
             this._disabled = false;
             // tslint:disable-next-line: variable-name
             this._defaultStyles = false;
             // tslint:disable-next-line: variable-name
             this._required = false;
+            // tslint:disable-next-line: variable-name
+            this._cardIcons = this.ccCardIcons || externalCardIcons;
             this.ngControl = null;
             this.focused = false;
             this.errorState = false;
             this.cardNumber = '';
-            this.cardIcon = this.cardIcons.default;
+            this.cardIcon = this._cardIcons.default;
             this.stateChanges = new rxjs.Subject();
             this.id = "ngx-cc" + NgxCcComponent_1.nextId;
             this.describedBy = '';
@@ -408,7 +426,7 @@
                 cardType = this.card.type;
             }
             this.cardNumber = this.creditCardService.prettyCardNumber(value, cardType);
-            this.cardIcon = !value ? this.cardIcons.default : this.cardIcons[cardType];
+            this.cardIcon = !value ? this._cardIcons.default : this._cardIcons[cardType];
         };
         NgxCcComponent.prototype.updateOnTouch = function () {
             if (this.ngControl) {
@@ -443,7 +461,7 @@
             { type: forms.FormGroupDirective, decorators: [{ type: core.Optional }] },
             { type: core$1.ErrorStateMatcher },
             { type: NgxCcService },
-            { type: undefined, decorators: [{ type: core.Inject, args: [CC_CARD_ICONS_TOKEN,] }] }
+            { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [CC_CARD_ICONS_TOKEN,] }] }
         ]; };
         __decorate([
             core.Input(),
@@ -518,7 +536,7 @@
             }),
             __param(3, core.Optional()),
             __param(4, core.Optional()),
-            __param(7, core.Inject(CC_CARD_ICONS_TOKEN)),
+            __param(7, core.Optional()), __param(7, core.Inject(CC_CARD_ICONS_TOKEN)),
             __metadata("design:paramtypes", [core.Injector,
                 core.ElementRef,
                 a11y.FocusMonitor,
@@ -1195,23 +1213,6 @@
         return CcCvvComponent;
     }());
 
-    var externalCardIcons = {
-        default: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
-        visa: 'https://img.icons8.com/color/40/000000/visa.png',
-        mastercard: 'https://img.icons8.com/color/40/000000/mastercard.png',
-        'american-express': 'https://img.icons8.com/color/40/000000/amex.png',
-        'diners-club': 'https://img.icons8.com/color/40/000000/diners-club.png',
-        discover: 'https://img.icons8.com/color/40/000000/discover.png',
-        jcb: 'https://img.icons8.com/color/40/000000/jcb.png',
-        unionpay: 'https://img.icons8.com/color/40/000000/unionpay.png',
-        maestro: 'https://img.icons8.com/color/40/000000/maestro.png',
-        mir: 'https://img.icons8.com/color/40/000000/mir.png',
-        elo: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
-        hiper: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
-        hipercard: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
-    };
-
-    var ɵ0$2 = externalCardIcons;
     var NgxCcModule = /** @class */ (function () {
         function NgxCcModule() {
         }
@@ -1250,12 +1251,6 @@
                     NumberOnlyDirective,
                     FormatDateDirective
                 ],
-                providers: [
-                    {
-                        provide: CC_CARD_ICONS_TOKEN,
-                        useValue: ɵ0$2,
-                    }
-                ]
             })
         ], NgxCcModule);
         return NgxCcModule;
@@ -1272,7 +1267,6 @@
     exports.ɵe = NumberOnlyDirective;
     exports.ɵf = FormatDateDirective;
     exports.ɵg = CcCvvComponent;
-    exports.ɵh = externalCardIcons;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
