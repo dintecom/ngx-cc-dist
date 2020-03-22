@@ -1,7 +1,8 @@
 import { ElementRef } from '@angular/core';
 export declare class NumberOnlyDirective {
     private elRef;
-    ngxNumberOnly: boolean;
+    get ngxNumberOnly(): boolean;
+    set ngxNumberOnly(flag: boolean);
     ngxMaxLength: number;
     private _ngxNumberOnly;
     onKeyDown(event: KeyboardEvent): boolean;
