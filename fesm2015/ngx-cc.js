@@ -1,9 +1,8 @@
-import { __decorate, __metadata, __param } from 'tslib';
-import { ɵɵdefineInjectable, Injectable, InjectionToken, Injector, ElementRef, Optional, Inject, Input, HostBinding, Component, forwardRef, ViewEncapsulation, HostListener, Directive, NgModule } from '@angular/core';
+import { ɵɵdefineInjectable, Injectable, InjectionToken, Component, forwardRef, ViewEncapsulation, Injector, ElementRef, Optional, Inject, Input, HostBinding, Directive, HostListener, NgModule } from '@angular/core';
 import creditCardType from 'credit-card-type';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { NgControl, NgForm, FormGroupDirective, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule } from '@angular/forms';
+import { NgControl, NG_VALUE_ACCESSOR, NG_VALIDATORS, NgForm, FormGroupDirective, FormsModule } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -11,7 +10,7 @@ import validator from 'card-validator';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 
-let NgxCcService = class NgxCcService {
+class NgxCcService {
     getCardType(cardNumber) {
         return creditCardType(cardNumber)[0];
     }
@@ -29,13 +28,13 @@ let NgxCcService = class NgxCcService {
         }
         return cardNumber;
     }
-};
+}
 NgxCcService.ɵprov = ɵɵdefineInjectable({ factory: function NgxCcService_Factory() { return new NgxCcService(); }, token: NgxCcService, providedIn: "root" });
-NgxCcService = __decorate([
-    Injectable({
-        providedIn: 'root'
-    })
-], NgxCcService);
+NgxCcService.decorators = [
+    { type: Injectable, args: [{
+                providedIn: 'root'
+            },] }
+];
 
 const CardValidator = (control) => {
     return validator.number(control.value).isValid ? null : { invalidCardNumber: true };
@@ -59,9 +58,8 @@ const externalCardIcons = {
     hipercard: 'https://img.icons8.com/color/40/000000/bank-card-back-side.png',
 };
 
-var NgxCcComponent_1;
 const ɵ0 = CardValidator;
-let NgxCcComponent = NgxCcComponent_1 = class NgxCcComponent {
+class NgxCcComponent {
     constructor(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher, creditCardService, ccCardIcons) {
         this.injector = injector;
         this.elRef = elRef;
@@ -85,7 +83,7 @@ let NgxCcComponent = NgxCcComponent_1 = class NgxCcComponent {
         this.cardNumber = '';
         this.cardIcon = this._cardIcons.default;
         this.stateChanges = new Subject();
-        this.id = `ngx-cc${NgxCcComponent_1.nextId}`;
+        this.id = `ngx-cc${NgxCcComponent.nextId}`;
         this.describedBy = '';
         const parent = this.parentFormGroup || this.parentForm;
         if (parent) {
@@ -193,8 +191,9 @@ let NgxCcComponent = NgxCcComponent_1 = class NgxCcComponent {
         }
     }
     ngOnDestroy() {
-        if (this._formSubmitSubscription)
+        if (this._formSubmitSubscription) {
             this._formSubmitSubscription.unsubscribe();
+        }
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     }
@@ -209,69 +208,12 @@ let NgxCcComponent = NgxCcComponent_1 = class NgxCcComponent {
             this.stateChanges.next();
         }
     }
-};
+}
 NgxCcComponent.nextId = 0;
-NgxCcComponent.ctorParameters = () => [
-    { type: Injector },
-    { type: ElementRef },
-    { type: FocusMonitor },
-    { type: NgForm, decorators: [{ type: Optional }] },
-    { type: FormGroupDirective, decorators: [{ type: Optional }] },
-    { type: ErrorStateMatcher },
-    { type: NgxCcService },
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [CC_CARD_ICONS_TOKEN,] }] }
-];
-__decorate([
-    Input(),
-    __metadata("design:type", String)
-], NgxCcComponent.prototype, "styleClass", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], NgxCcComponent.prototype, "value", null);
-__decorate([
-    Input(),
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], NgxCcComponent.prototype, "placeholder", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [])
-], NgxCcComponent.prototype, "empty", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], NgxCcComponent.prototype, "required", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], NgxCcComponent.prototype, "disabled", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], NgxCcComponent.prototype, "defaultStyles", null);
-__decorate([
-    HostBinding(),
-    __metadata("design:type", Object)
-], NgxCcComponent.prototype, "id", void 0);
-__decorate([
-    HostBinding('attr.aria-describedby'),
-    __metadata("design:type", Object)
-], NgxCcComponent.prototype, "describedBy", void 0);
-__decorate([
-    HostBinding('class.floating'),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [])
-], NgxCcComponent.prototype, "shouldLabelFloat", null);
-NgxCcComponent = NgxCcComponent_1 = __decorate([
-    Component({
-        selector: 'ngx-cc',
-        template: `
+NgxCcComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'ngx-cc',
+                template: `
       <div class="ngx-cc-container" [ngClass]="styleClass">
         <input *ngIf="!defaultStyles"
         ngxNumberOnly
@@ -299,25 +241,25 @@ NgxCcComponent = NgxCcComponent_1 = __decorate([
         <img *ngIf="!defaultStyles" class="ngx-cc-suffix" [src]="cardIcon" />
       </div>
       `,
-        providers: [
-            {
-                provide: NG_VALUE_ACCESSOR,
-                useExisting: forwardRef(() => NgxCcComponent_1),
-                multi: true
-            },
-            {
-                provide: NG_VALIDATORS,
-                useValue: ɵ0,
-                multi: true
-            },
-            {
-                provide: MatFormFieldControl,
-                useExisting: forwardRef(() => NgxCcComponent_1),
-                multi: true
-            }
-        ],
-        encapsulation: ViewEncapsulation.None,
-        styles: [`
+                providers: [
+                    {
+                        provide: NG_VALUE_ACCESSOR,
+                        useExisting: forwardRef(() => NgxCcComponent),
+                        multi: true
+                    },
+                    {
+                        provide: NG_VALIDATORS,
+                        useValue: ɵ0,
+                        multi: true
+                    },
+                    {
+                        provide: MatFormFieldControl,
+                        useExisting: forwardRef(() => NgxCcComponent),
+                        multi: true
+                    }
+                ],
+                encapsulation: ViewEncapsulation.None,
+                styles: [`
     .ngx-cc-container {
       display: flex;
       position: relative;
@@ -346,27 +288,38 @@ NgxCcComponent = NgxCcComponent_1 = __decorate([
       height: 40px;
     }
     `]
-    }),
-    __param(3, Optional()),
-    __param(4, Optional()),
-    __param(7, Optional()), __param(7, Inject(CC_CARD_ICONS_TOKEN)),
-    __metadata("design:paramtypes", [Injector,
-        ElementRef,
-        FocusMonitor,
-        NgForm,
-        FormGroupDirective,
-        ErrorStateMatcher,
-        NgxCcService, Object])
-], NgxCcComponent);
+            },] }
+];
+NgxCcComponent.ctorParameters = () => [
+    { type: Injector },
+    { type: ElementRef },
+    { type: FocusMonitor },
+    { type: NgForm, decorators: [{ type: Optional }] },
+    { type: FormGroupDirective, decorators: [{ type: Optional }] },
+    { type: ErrorStateMatcher },
+    { type: NgxCcService },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [CC_CARD_ICONS_TOKEN,] }] }
+];
+NgxCcComponent.propDecorators = {
+    styleClass: [{ type: Input }],
+    value: [{ type: Input }],
+    placeholder: [{ type: Input }],
+    empty: [{ type: Input }],
+    required: [{ type: Input }],
+    disabled: [{ type: Input }],
+    defaultStyles: [{ type: Input }],
+    id: [{ type: HostBinding }],
+    describedBy: [{ type: HostBinding, args: ['attr.aria-describedby',] }],
+    shouldLabelFloat: [{ type: HostBinding, args: ['class.floating',] }]
+};
 
 const CardExpirationValidator = (control) => {
     const date = validator.expirationDate(control.value);
     return (date.month && date.year) ? null : { invalidDate: true };
 };
 
-var CcDateComponent_1;
 const ɵ0$1 = CardExpirationValidator;
-let CcDateComponent = CcDateComponent_1 = class CcDateComponent {
+class CcDateComponent {
     constructor(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher) {
         this.injector = injector;
         this.elRef = elRef;
@@ -385,7 +338,7 @@ let CcDateComponent = CcDateComponent_1 = class CcDateComponent {
         this.errorState = false;
         this.stateChanges = new Subject();
         this.cardDate = '';
-        this.id = `ngx-cc${CcDateComponent_1.nextId}`;
+        this.id = `ngx-cc${CcDateComponent.nextId}`;
         this.describedBy = '';
         const parent = this.parentFormGroup || this.parentForm;
         if (parent) {
@@ -487,8 +440,9 @@ let CcDateComponent = CcDateComponent_1 = class CcDateComponent {
         }
     }
     ngOnDestroy() {
-        if (this._formSubmitSubscription)
+        if (this._formSubmitSubscription) {
             this._formSubmitSubscription.unsubscribe();
+        }
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     }
@@ -503,67 +457,12 @@ let CcDateComponent = CcDateComponent_1 = class CcDateComponent {
             this.stateChanges.next();
         }
     }
-};
+}
 CcDateComponent.nextId = 0;
-CcDateComponent.ctorParameters = () => [
-    { type: Injector },
-    { type: ElementRef },
-    { type: FocusMonitor },
-    { type: NgForm, decorators: [{ type: Optional }] },
-    { type: FormGroupDirective, decorators: [{ type: Optional }] },
-    { type: ErrorStateMatcher }
-];
-__decorate([
-    Input(),
-    __metadata("design:type", String)
-], CcDateComponent.prototype, "styleClass", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], CcDateComponent.prototype, "value", null);
-__decorate([
-    Input(),
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], CcDateComponent.prototype, "placeholder", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [])
-], CcDateComponent.prototype, "empty", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], CcDateComponent.prototype, "required", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], CcDateComponent.prototype, "disabled", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], CcDateComponent.prototype, "defaultStyles", null);
-__decorate([
-    HostBinding(),
-    __metadata("design:type", Object)
-], CcDateComponent.prototype, "id", void 0);
-__decorate([
-    HostBinding('attr.aria-describedby'),
-    __metadata("design:type", Object)
-], CcDateComponent.prototype, "describedBy", void 0);
-__decorate([
-    HostBinding('class.floating'),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [])
-], CcDateComponent.prototype, "shouldLabelFloat", null);
-CcDateComponent = CcDateComponent_1 = __decorate([
-    Component({
-        selector: 'ngx-cc-date',
-        template: `
+CcDateComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'ngx-cc-date',
+                template: `
     <div class="ngx-cc-date-container" [ngClass]="styleClass">
       <input
       ngxNumberOnly
@@ -580,25 +479,25 @@ CcDateComponent = CcDateComponent_1 = __decorate([
       >
     </div>
   `,
-        providers: [
-            {
-                provide: NG_VALUE_ACCESSOR,
-                useExisting: forwardRef(() => CcDateComponent_1),
-                multi: true
-            },
-            {
-                provide: NG_VALIDATORS,
-                useValue: ɵ0$1,
-                multi: true
-            },
-            {
-                provide: MatFormFieldControl,
-                useExisting: forwardRef(() => CcDateComponent_1),
-                multi: true
-            }
-        ],
-        encapsulation: ViewEncapsulation.None,
-        styles: [`
+                providers: [
+                    {
+                        provide: NG_VALUE_ACCESSOR,
+                        useExisting: forwardRef(() => CcDateComponent),
+                        multi: true
+                    },
+                    {
+                        provide: NG_VALIDATORS,
+                        useValue: ɵ0$1,
+                        multi: true
+                    },
+                    {
+                        provide: MatFormFieldControl,
+                        useExisting: forwardRef(() => CcDateComponent),
+                        multi: true
+                    }
+                ],
+                encapsulation: ViewEncapsulation.None,
+                styles: [`
     .ngx-cc-date-input {
       border: none;
       background: none;
@@ -608,18 +507,30 @@ CcDateComponent = CcDateComponent_1 = __decorate([
       text-align: left;
     }
   `]
-    }),
-    __param(3, Optional()),
-    __param(4, Optional()),
-    __metadata("design:paramtypes", [Injector,
-        ElementRef,
-        FocusMonitor,
-        NgForm,
-        FormGroupDirective,
-        ErrorStateMatcher])
-], CcDateComponent);
+            },] }
+];
+CcDateComponent.ctorParameters = () => [
+    { type: Injector },
+    { type: ElementRef },
+    { type: FocusMonitor },
+    { type: NgForm, decorators: [{ type: Optional }] },
+    { type: FormGroupDirective, decorators: [{ type: Optional }] },
+    { type: ErrorStateMatcher }
+];
+CcDateComponent.propDecorators = {
+    styleClass: [{ type: Input }],
+    value: [{ type: Input }],
+    placeholder: [{ type: Input }],
+    empty: [{ type: Input }],
+    required: [{ type: Input }],
+    disabled: [{ type: Input }],
+    defaultStyles: [{ type: Input }],
+    id: [{ type: HostBinding }],
+    describedBy: [{ type: HostBinding, args: ['attr.aria-describedby',] }],
+    shouldLabelFloat: [{ type: HostBinding, args: ['class.floating',] }]
+};
 
-let NumberOnlyDirective = class NumberOnlyDirective {
+class NumberOnlyDirective {
     constructor(elRef) {
         this.elRef = elRef;
     }
@@ -656,33 +567,22 @@ let NumberOnlyDirective = class NumberOnlyDirective {
             }
         }
     }
-};
+}
+NumberOnlyDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[ngxNumberOnly]'
+            },] }
+];
 NumberOnlyDirective.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], NumberOnlyDirective.prototype, "ngxNumberOnly", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Number)
-], NumberOnlyDirective.prototype, "ngxMaxLength", void 0);
-__decorate([
-    HostListener('keydown', ['$event']),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [KeyboardEvent]),
-    __metadata("design:returntype", void 0)
-], NumberOnlyDirective.prototype, "onKeyDown", null);
-NumberOnlyDirective = __decorate([
-    Directive({
-        selector: '[ngxNumberOnly]'
-    }),
-    __metadata("design:paramtypes", [ElementRef])
-], NumberOnlyDirective);
+NumberOnlyDirective.propDecorators = {
+    ngxNumberOnly: [{ type: Input }],
+    ngxMaxLength: [{ type: Input }],
+    onKeyDown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
+};
 
-let FormatDateDirective = class FormatDateDirective {
+class FormatDateDirective {
     constructor(control) {
         this.control = control;
         /**
@@ -715,25 +615,20 @@ let FormatDateDirective = class FormatDateDirective {
             this.control.control.setValue(eventValue);
         }
     }
-};
+}
+FormatDateDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[ngxFormatDate]'
+            },] }
+];
 FormatDateDirective.ctorParameters = () => [
     { type: NgControl }
 ];
-__decorate([
-    HostListener('input', ['$event']),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [KeyboardEvent]),
-    __metadata("design:returntype", void 0)
-], FormatDateDirective.prototype, "formatDate", null);
-FormatDateDirective = __decorate([
-    Directive({
-        selector: '[ngxFormatDate]'
-    }),
-    __metadata("design:paramtypes", [NgControl])
-], FormatDateDirective);
+FormatDateDirective.propDecorators = {
+    formatDate: [{ type: HostListener, args: ['input', ['$event'],] }]
+};
 
-var CcCvvComponent_1;
-let CcCvvComponent = CcCvvComponent_1 = class CcCvvComponent {
+class CcCvvComponent {
     constructor(injector, elRef, fm, parentForm, parentFormGroup, defaultErrorStateMatcher) {
         this.injector = injector;
         this.elRef = elRef;
@@ -753,7 +648,7 @@ let CcCvvComponent = CcCvvComponent_1 = class CcCvvComponent {
         this.stateChanges = new Subject();
         this.cardCvv = '';
         this.maxCvvLength = 4;
-        this.id = `ngx-cc${CcCvvComponent_1.nextId}`;
+        this.id = `ngx-cc${CcCvvComponent.nextId}`;
         this.describedBy = '';
         const parent = this.parentFormGroup || this.parentForm;
         if (parent) {
@@ -866,8 +761,9 @@ let CcCvvComponent = CcCvvComponent_1 = class CcCvvComponent {
         }
     }
     ngOnDestroy() {
-        if (this._formSubmitSubscription)
+        if (this._formSubmitSubscription) {
             this._formSubmitSubscription.unsubscribe();
+        }
         this.fm.stopMonitoring(this.elRef.nativeElement);
         this.stateChanges.complete();
     }
@@ -882,72 +778,12 @@ let CcCvvComponent = CcCvvComponent_1 = class CcCvvComponent {
             this.stateChanges.next();
         }
     }
-};
+}
 CcCvvComponent.nextId = 0;
-CcCvvComponent.ctorParameters = () => [
-    { type: Injector },
-    { type: ElementRef },
-    { type: FocusMonitor },
-    { type: NgForm, decorators: [{ type: Optional }] },
-    { type: FormGroupDirective, decorators: [{ type: Optional }] },
-    { type: ErrorStateMatcher }
-];
-__decorate([
-    Input(),
-    __metadata("design:type", String)
-], CcCvvComponent.prototype, "styleClass", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], CcCvvComponent.prototype, "value", null);
-__decorate([
-    Input(),
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], CcCvvComponent.prototype, "placeholder", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [])
-], CcCvvComponent.prototype, "empty", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], CcCvvComponent.prototype, "required", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], CcCvvComponent.prototype, "disabled", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], CcCvvComponent.prototype, "defaultStyles", null);
-__decorate([
-    Input('cvv-size'),
-    __metadata("design:type", Number),
-    __metadata("design:paramtypes", [Number])
-], CcCvvComponent.prototype, "cvvSize", null);
-__decorate([
-    HostBinding(),
-    __metadata("design:type", Object)
-], CcCvvComponent.prototype, "id", void 0);
-__decorate([
-    HostBinding('attr.aria-describedby'),
-    __metadata("design:type", Object)
-], CcCvvComponent.prototype, "describedBy", void 0);
-__decorate([
-    HostBinding('class.floating'),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [])
-], CcCvvComponent.prototype, "shouldLabelFloat", null);
-CcCvvComponent = CcCvvComponent_1 = __decorate([
-    Component({
-        selector: 'ngx-cc-cvv',
-        template: `
+CcCvvComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'ngx-cc-cvv',
+                template: `
     <div class="ngx-cc-cvv-container" [ngClass]="styleClass">
       <input
         ngxNumberOnly
@@ -962,24 +798,24 @@ CcCvvComponent = CcCvvComponent_1 = __decorate([
         (input)="updateCvv($event)">
     </div>
   `,
-        providers: [
-            {
-                provide: NG_VALUE_ACCESSOR,
-                useExisting: forwardRef(() => CcCvvComponent_1),
-                multi: true
-            },
-            {
-                provide: NG_VALIDATORS,
-                useExisting: forwardRef(() => CcCvvComponent_1),
-                multi: true
-            },
-            {
-                provide: MatFormFieldControl,
-                useExisting: forwardRef(() => CcCvvComponent_1),
-                multi: true
-            }
-        ],
-        styles: [`
+                providers: [
+                    {
+                        provide: NG_VALUE_ACCESSOR,
+                        useExisting: forwardRef(() => CcCvvComponent),
+                        multi: true
+                    },
+                    {
+                        provide: NG_VALIDATORS,
+                        useExisting: forwardRef(() => CcCvvComponent),
+                        multi: true
+                    },
+                    {
+                        provide: MatFormFieldControl,
+                        useExisting: forwardRef(() => CcCvvComponent),
+                        multi: true
+                    }
+                ],
+                styles: [`
     .ngx-cc-cvv-input {
       border: none;
       background: none;
@@ -989,22 +825,34 @@ CcCvvComponent = CcCvvComponent_1 = __decorate([
       text-align: left;
     }
   `]
-    }),
-    __param(3, Optional()),
-    __param(4, Optional()),
-    __metadata("design:paramtypes", [Injector,
-        ElementRef,
-        FocusMonitor,
-        NgForm,
-        FormGroupDirective,
-        ErrorStateMatcher])
-], CcCvvComponent);
+            },] }
+];
+CcCvvComponent.ctorParameters = () => [
+    { type: Injector },
+    { type: ElementRef },
+    { type: FocusMonitor },
+    { type: NgForm, decorators: [{ type: Optional }] },
+    { type: FormGroupDirective, decorators: [{ type: Optional }] },
+    { type: ErrorStateMatcher }
+];
+CcCvvComponent.propDecorators = {
+    styleClass: [{ type: Input }],
+    value: [{ type: Input }],
+    placeholder: [{ type: Input }],
+    empty: [{ type: Input }],
+    required: [{ type: Input }],
+    disabled: [{ type: Input }],
+    defaultStyles: [{ type: Input }],
+    cvvSize: [{ type: Input, args: ['cvv-size',] }],
+    id: [{ type: HostBinding }],
+    describedBy: [{ type: HostBinding, args: ['attr.aria-describedby',] }],
+    shouldLabelFloat: [{ type: HostBinding, args: ['class.floating',] }]
+};
 
-var NgxCcModule_1;
-let NgxCcModule = NgxCcModule_1 = class NgxCcModule {
+class NgxCcModule {
     static forRoot(config) {
         return {
-            ngModule: NgxCcModule_1,
+            ngModule: NgxCcModule,
             providers: [
                 {
                     provide: CC_CARD_ICONS_TOKEN,
@@ -1013,31 +861,31 @@ let NgxCcModule = NgxCcModule_1 = class NgxCcModule {
             ]
         };
     }
-};
-NgxCcModule = NgxCcModule_1 = __decorate([
-    NgModule({
-        declarations: [
-            NgxCcComponent,
-            NumberOnlyDirective,
-            CcDateComponent,
-            FormatDateDirective,
-            CcCvvComponent
-        ],
-        imports: [
-            CommonModule,
-            FormsModule,
-            MatInputModule,
-            MatFormFieldModule
-        ],
-        exports: [
-            NgxCcComponent,
-            CcDateComponent,
-            CcCvvComponent,
-            NumberOnlyDirective,
-            FormatDateDirective
-        ],
-    })
-], NgxCcModule);
+}
+NgxCcModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [
+                    NgxCcComponent,
+                    NumberOnlyDirective,
+                    CcDateComponent,
+                    FormatDateDirective,
+                    CcCvvComponent
+                ],
+                imports: [
+                    CommonModule,
+                    FormsModule,
+                    MatInputModule,
+                    MatFormFieldModule
+                ],
+                exports: [
+                    NgxCcComponent,
+                    CcDateComponent,
+                    CcCvvComponent,
+                    NumberOnlyDirective,
+                    FormatDateDirective
+                ],
+            },] }
+];
 
 /*
  * Public API Surface of ngx-cc
